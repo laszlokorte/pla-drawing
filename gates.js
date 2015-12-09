@@ -7,24 +7,51 @@
         class: 'gate gate-type'
       });
 
-      var input1 = appendToSVG(group,'path',{
-        d: 'M 102,51 l 90,0',
-        class: 'gate-port'
+      var input1 = appendToSVG(group,'line',{
+        x1: -55,
+        y1: -20,
+        x2: 0,
+        y2: -20,
+        stroke: 'black',
+        fill: 'none'
       });
 
-      var input2 = appendToSVG(group,'path',{
-        d: 'M 102,129 l 90,0',
-        class: 'gate-port'
+
+      var input2 = appendToSVG(group,'line',{
+        x1: -55,
+        y1: 20,
+        x2: 0,
+        y2: 20,
+        stroke: 'black',
+        fill: 'none'
       });
 
-      var output = appendToSVG(group,'path',{
-        d: 'M 300,90 l 50,0',
-        class: 'gate-port'
+
+
+      var output = appendToSVG(group,'line',{
+        x1: 0,
+        y1: 0,
+        x2: 55,
+        y2: 0,
+        stroke: 'black',
+        fill: 'none'
       });
 
       var body = appendToSVG(group,'path',{
-        d: 'M 148,169.24997 C 147.86307,169.25544 189.01219,161.81425 189.01219,89.999999 C 189.01219,17.478772 147.99697,10.749695 148,10.750027 C 214.25305,18.014053 257.40202,7.7267425 303,90.000005 C 269,162.74602 224.41039,166.19896 148,169.24997 z',
+        d: `M-40,35c-0,0 17.5,-3 17.5,-35c0,-32.5 -17.5,-35 -17.5,-35c27.5,3 45,0 65,35c-15,32 -32.5,32.5 -65,35Z`,
         class: 'gate-body'
+      });
+
+      var negation = appendToSVG(group,'circle',{
+        cx: 35,
+        cy: 0,
+        r: 10
+      });
+
+      var x = appendToSVG(group,'path',{
+        d: `M-50,35c0,0 17.5,-3 17.5,-35c0,-32.5 -18,-35 -18,-35`,
+        stroke: 'black',
+        fill: 'none'
       });
     }
   };

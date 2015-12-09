@@ -24,6 +24,10 @@ svg {
   fill: none;
 }
 
+.bubble {
+  fill: crimson;
+}
+
 .circuit-connection {
   stroke-width: 4pt;
   stroke: black;
@@ -35,7 +39,7 @@ svg {
 
 .gate {
   fill: lightgrey;
-  stroke-width: 5pt;
+  stroke-width: 2pt;
   stroke: black;
   stroke-linecap:butt;
   stroke-linejoin:round;
