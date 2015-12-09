@@ -48,8 +48,13 @@
             class: 'background'
           });
 
-          logicGates.xnor(stage, 0, 0);
-          logicGates.xnor(stage, 0, 80);
+          logicGates.xor(stage, -200, -40);
+          logicGates.xnor(stage, -200, 40);
+          logicGates.or(stage, -50, -40);
+          logicGates.nor(stage, -50, 40);
+          logicGates.and(stage, 100, -40);
+          logicGates.nand(stage, 100, 40);
+          logicGates.not(stage, 250, -40);
 
         };
 
