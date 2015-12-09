@@ -1,7 +1,7 @@
 (function() {
 
   window.logicGates = {
-    and: function(target, x, y) {
+    xnor: function(target, x, y) {
       var group = appendToSVG(target,'g',{
         transform: 'translate('+x+' '+y+')',
         class: 'gate gate-type'
