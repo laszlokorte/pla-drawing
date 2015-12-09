@@ -22,6 +22,7 @@
     <svg id="stage"></svg>
 
     <script type="text/javascript" src="common.js"></script>
+    <script type="text/javascript" src="gates.js"></script>
     <script type="text/javascript">
       var setup = function(stage) {
         var states = {};
@@ -47,11 +48,12 @@
             class: 'background'
           });
 
-          appendToSVG(stage,'circle',{
-            cx: 0,
-            cy: 0,
-            r: 30,
-            class: 'bubble'
+          logicGates.and(stage, -400, -100);
+          logicGates.and(stage, -100, 39-100);
+
+          var output = appendToSVG(stage,'path',{
+            d: 'M -50,-10 l 80,0',
+            class: 'circuit-connection'
           });
 
         };
@@ -75,7 +77,7 @@
           return idx ? parseInt(idx, 10) : null;
         };
 
-        var onZoom = createZoomHandler(cam, render, 0.3, 3, panHandler);
+        var onZoom = createZoomHandler(cam, render, 0.3, 2, panHandler);
 
         var onDoubleClick = function(evt, pos) {
           cam.zoom = 0.7;

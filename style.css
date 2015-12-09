@@ -24,7 +24,25 @@ svg {
   fill: none;
 }
 
+.circuit-connection {
+  stroke-width: 4pt;
+  stroke: black;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-miterlimit:4;
+}
 
-.bubble {
-  fill: darkgrey;
+
+.gate {
+  fill: lightgrey;
+  stroke-width: 5pt;
+  stroke: black;
+  stroke-linecap:butt;
+  stroke-linejoin:round;
+  stroke-miterlimit:4;
+}
+
+.gate-port {
+  stroke-width: 4pt;
+  stroke-linecap:round;
 }
