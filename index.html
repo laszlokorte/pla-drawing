@@ -31,101 +31,42 @@
         var gates = [
           {
             type: 'xor',
-            x: -200,
-            y: 300
+            x: -3,
+            y: 2
           },
           {
             type: 'xnor',
-            x: -200,
-            y: 400
+            x: -3,
+            y: 3
           },
           {
             type: 'or',
-            x: -50,
-            y: 300
+            x: -2,
+            y: 2
           },
           {
             type: 'nor',
-            x: -50,
-            y: 400
+            x: -2,
+            y: 3
           },
           {
             type: 'and',
-            x: 100,
-            y: 300
+            x: -1,
+            y: 2
           },
           {
             type: 'nand',
-            x: 100,
-            y: 400
+            x: -1,
+            y: 3
           },
-          {
-            type: 'not',
-            x: 250,
-            y: 400
-          },
-
-
-
-
-
-
-          {
-            type: 'not',
-            x: -300,
-            y: -200,
-            rot: 6
-          },
-
-          {
-            type: 'not',
-            x: -150,
-            y: -200,
-            rot: 6
-          },
-
           {
             type: 'not',
             x: 0,
-            y: -200,
-            rot: 6
-          },
-
-
-          {
-            type: 'and',
-            x: 200,
-            y: 100,
-            rot: 3
-          },
-
-          {
-            type: 'and',
-            x: 200,
-            y: 0,
-            rot: 3
-          },
-
-          {
-            type: 'or',
-            x: 400,
-            y: -200,
-            rot: 12
+            y: 3
           },
         ];
 
-        var wires = [
-          {
-            fromX: -300,
-            fromY: -200,
-            fromRotation: 6,
-            toX: 200,
-            toY: 100,
-            toRotation: 3,
-            toPort: 1,
-            toPortCount: 2
-          },
-        ];
+
 
         var doRender = function() {
           var width = parseInt(stage.getAttribute('width'), 10);
@@ -148,13 +89,84 @@
           });
 
           gates.forEach(function(gate) {
-            logicGates[gate.type](stage, gate.x, gate.y, gate.inputs, gate.rot);
+            logicGates[gate.type](stage, gate.x - 10, gate.y + 5, gate.inputs, gate.rot);
           });
 
-          wires.forEach(function(wire) {
-            circuitWire(stage, wire.fromX, wire.fromY, wire.fromRotation, wire.toX, wire.toY, wire.toRotation, wire.toPort, wire.toPortCount);
+          var inputCount = 3;
+          var loopCount = 4;
+
+          logicGates['or'](stage, -2 + 2*inputCount, -2, loopCount, 0);
+
+
+          Array.apply(Array, {length: inputCount}).forEach(function(_, i) {
+            logicGates['buffer'](stage, -5 + 2*i, -2, 1, 6);
+            logicGates['not'](stage, -4 + 2*i, -2, 1, 6);
+
+
+            appendToSVG(stage,'line',{
+              x1: (-4 + 2*i) * 110,
+              y1: -2 * 110 + 55,
+              x2: (-4 + 2*i) * 110,
+              y2: (loopCount) * 110,
+              class: 'circuit-wire'
+            });
+
+            appendToSVG(stage,'line',{
+              x1: (-5 + 2*i) * 110,
+              y1: -2 * 110 + 55,
+              x2: (-5 + 2*i) * 110,
+              y2: (loopCount) * 110,
+              class: 'circuit-wire'
+            });
           });
 
+          Array.apply(Array, {length: loopCount}).forEach(function(_, i) {
+
+            var loopSize = i % 2 === 0 ? 2 : 3;
+
+            logicGates['and'](stage, 2, i, loopSize, 3);
+
+            appendToSVG(stage,'line',{
+              x1: (-2 + 2*inputCount) * 110 - 40 + inputOffsets(loopCount)[i] * 10,
+              y1: -2 * 110 + 55,
+              x2: (-2 + 2*inputCount) * 110 - 40 + inputOffsets(loopCount)[i] * 10,
+              y2: (loopCount) * 110,
+              class: 'circuit-wire'
+            });
+
+            appendToSVG(stage,'line',{
+              x1: 2 * 110 + 55,
+              y1: i * 110,
+              x2: (-2 + 2*inputCount) * 110 + 40 - inputOffsets(loopCount)[i] * 10,
+              y2: i * 110,
+              class: 'circuit-wire'
+            });
+
+            appendToSVG(stage,'circle',{
+              cx: (-2 + 2*inputCount) * 110 + 40 - inputOffsets(loopCount)[i] * 10,
+              cy: i * 110,
+              r: 4,
+              fill: 'black'
+            });
+
+            for(var k=0;k<loopSize;k++)
+            {
+              appendToSVG(stage,'line',{
+                x1: (-5 + (loopSize + 2*i+k+1)%(inputCount+1)) * 110,
+                y1: i * 110 - 40 + inputOffsets(loopSize)[k] * 10,
+                x2: 2 * 110 - 55,
+                y2: i * 110 - 40 + inputOffsets(loopSize)[k] * 10,
+                class: 'circuit-wire'
+              });
+
+              appendToSVG(stage,'circle',{
+                cx: (-5 + (loopSize + 2*i+k+1)%(inputCount+1)) * 110,
+                cy: i * 110 - 40 + inputOffsets(loopSize)[k] * 10,
+                r: 4,
+                fill: 'black'
+              });
+            }
+          });
         };
 
         var render = makeRenderer(doRender, true);

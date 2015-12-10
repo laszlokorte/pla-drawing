@@ -83,6 +83,8 @@
       result.push(5);
     }
 
+    result.sort();
+
     return result;
   };
 
@@ -95,7 +97,7 @@
 
     var angle = rotation * 360 / 12 - 90;
     var g = appendToSVG(target,'g',{
-      transform: 'translate('+x+' '+y+') rotate('+angle+')',
+      transform: 'translate('+x*110+' '+y*110+') rotate('+angle+')',
       class: 'gate gate-type-xnor'
     });
 
@@ -106,41 +108,6 @@
     });
 
     return g;
-  };
-
-  window.circuitWire = function(target, fromX, fromY, fromRotation, toX, toY, toRotation, toPort, toPortCount) {
-    var exitAngle = (fromRotation-3) * 2*Math.PI / 12;
-    var enterAngle = (toRotation-3) * 2*Math.PI / 12;
-    var outX = 55;
-    var outY = 0;
-
-    var inX = -55;
-    var inY = -40 + 10 * inputOffsets(toPortCount)[toPort-1];
-
-    var exitCos = Math.cos(exitAngle);
-    var exitSin = Math.sin(exitAngle);
-    var exitX = fromX + outX * exitCos - outY * exitSin;
-    var exitY = fromY + outY * exitCos + outX * exitSin;
-
-
-    var enterCos = Math.cos(enterAngle);
-    var enterSin = Math.sin(enterAngle);
-    var enterX = toX + inX * enterCos - inY * enterSin;
-    var enterY = toY + inY * enterCos + inX * enterSin;
-
-    appendToSVG(target,'circle',{
-      cx: exitX,
-      cy: exitY,
-      r: 5,
-      fill: 'red'
-    });
-
-    appendToSVG(target,'circle',{
-      cx: enterX,
-      cy: enterY,
-      r: 5,
-      fill: 'blue'
-    });
   };
 
   window.logicGates = {
@@ -171,6 +138,12 @@
     not: function(target, x, y, inputCount, rotation) {
       return group(target, x, y, [output, buffer, negation], 1, rotation);
     },
+
+    buffer: function(target, x, y, inputCount, rotation) {
+      return group(target, x, y, [output, buffer], 1, rotation);
+    },
   };
 
+
+  window.inputOffsets = inputOffsets;
 })(window);

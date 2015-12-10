@@ -28,8 +28,8 @@ svg {
   fill: crimson;
 }
 
-.circuit-connection {
-  stroke-width: 4pt;
+.circuit-wire {
+  stroke-width: 2pt;
   stroke: black;
   stroke-linecap:round;
   stroke-linejoin:round;
