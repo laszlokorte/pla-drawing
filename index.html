@@ -28,6 +28,105 @@
         var states = {};
         var cam = createCamera();
 
+        var gates = [
+          {
+            type: 'xor',
+            x: -200,
+            y: 300
+          },
+          {
+            type: 'xnor',
+            x: -200,
+            y: 400
+          },
+          {
+            type: 'or',
+            x: -50,
+            y: 300
+          },
+          {
+            type: 'nor',
+            x: -50,
+            y: 400
+          },
+          {
+            type: 'and',
+            x: 100,
+            y: 300
+          },
+          {
+            type: 'nand',
+            x: 100,
+            y: 400
+          },
+          {
+            type: 'not',
+            x: 250,
+            y: 400
+          },
+
+
+
+
+
+
+          {
+            type: 'not',
+            x: -300,
+            y: -200,
+            rot: 6
+          },
+
+          {
+            type: 'not',
+            x: -150,
+            y: -200,
+            rot: 6
+          },
+
+          {
+            type: 'not',
+            x: 0,
+            y: -200,
+            rot: 6
+          },
+
+
+          {
+            type: 'and',
+            x: 200,
+            y: 100,
+            rot: 3
+          },
+
+          {
+            type: 'and',
+            x: 200,
+            y: 0,
+            rot: 3
+          },
+
+          {
+            type: 'or',
+            x: 400,
+            y: -200,
+            rot: 12
+          },
+        ];
+
+        var wires = [
+          {
+            fromX: -300,
+            fromY: -200,
+            fromRotation: 6,
+            toX: 200,
+            toY: 100,
+            toRotation: 3,
+            toPort: 1,
+            toPortCount: 2
+          },
+        ];
+
         var doRender = function() {
           var width = parseInt(stage.getAttribute('width'), 10);
           var height = parseInt(stage.getAttribute('height'), 10);
@@ -48,13 +147,13 @@
             class: 'background'
           });
 
-          logicGates.xor(stage, -200, -40);
-          logicGates.xnor(stage, -200, 40);
-          logicGates.or(stage, -50, -40);
-          logicGates.nor(stage, -50, 40);
-          logicGates.and(stage, 100, -40);
-          logicGates.nand(stage, 100, 40);
-          logicGates.not(stage, 250,  40);
+          gates.forEach(function(gate) {
+            logicGates[gate.type](stage, gate.x, gate.y, gate.inputs, gate.rot);
+          });
+
+          wires.forEach(function(wire) {
+            circuitWire(stage, wire.fromX, wire.fromY, wire.fromRotation, wire.toX, wire.toY, wire.toRotation, wire.toPort, wire.toPortCount);
+          });
 
         };
 

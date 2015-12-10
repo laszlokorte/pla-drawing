@@ -60,31 +60,42 @@
     });
   };
 
-  var inputs = function(target, count) {
+  var inputOffsets = function(count) {
+    var result = [];
+
     if(count % 2 === 1) {
-      input(target, 4);
+      result.push(4);
     }
     if(count !== 4) {
       if(count > 1) {
-        input(target, 2);
+        result.push(2);
       }
       if(count > 1) {
-        input(target, 6);
+        result.push(6);
       }
     }
     if(count > 3) {
       if(count !== 5) {
-        input(target, 1);
-        input(target, 7);
+        result.push(1);
+        result.push(7);
       }
-      input(target, 3);
-      input(target, 5);
+      result.push(3);
+      result.push(5);
     }
+
+    return result;
   };
 
-  var group = function(target, x, y, aspects, inputCount) {
+  var inputs = function(target, count) {
+    inputOffsets(count).forEach(input.bind(null, target));
+  };
+
+  var group = function(target, x, y, aspects, inputCount, rotation) {
+    if(typeof rotation === 'undefined') rotation = 3;
+
+    var angle = rotation * 360 / 12 - 90;
     var g = appendToSVG(target,'g',{
-      transform: 'translate('+x+' '+y+')',
+      transform: 'translate('+x+' '+y+') rotate('+angle+')',
       class: 'gate gate-type-xnor'
     });
 
@@ -97,33 +108,68 @@
     return g;
   };
 
+  window.circuitWire = function(target, fromX, fromY, fromRotation, toX, toY, toRotation, toPort, toPortCount) {
+    var exitAngle = (fromRotation-3) * 2*Math.PI / 12;
+    var enterAngle = (toRotation-3) * 2*Math.PI / 12;
+    var outX = 55;
+    var outY = 0;
+
+    var inX = -55;
+    var inY = -40 + 10 * inputOffsets(toPortCount)[toPort-1];
+
+    var exitCos = Math.cos(exitAngle);
+    var exitSin = Math.sin(exitAngle);
+    var exitX = fromX + outX * exitCos - outY * exitSin;
+    var exitY = fromY + outY * exitCos + outX * exitSin;
+
+
+    var enterCos = Math.cos(enterAngle);
+    var enterSin = Math.sin(enterAngle);
+    var enterX = toX + inX * enterCos - inY * enterSin;
+    var enterY = toY + inY * enterCos + inX * enterSin;
+
+    appendToSVG(target,'circle',{
+      cx: exitX,
+      cy: exitY,
+      r: 5,
+      fill: 'red'
+    });
+
+    appendToSVG(target,'circle',{
+      cx: enterX,
+      cy: enterY,
+      r: 5,
+      fill: 'blue'
+    });
+  };
+
   window.logicGates = {
-    xnor: function(target, x, y, inputCount) {
-      return group(target, x, y, [output, negation, exclusion, or], inputCount || 2);
+    xnor: function(target, x, y, inputCount, rotation) {
+      return group(target, x, y, [output, negation, exclusion, or], inputCount || 2, rotation);
     },
 
-    xor: function(target, x, y, inputCount) {
-      return group(target, x, y, [output, exclusion, or], inputCount || 2);
+    xor: function(target, x, y, inputCount, rotation) {
+      return group(target, x, y, [output, exclusion, or], inputCount || 2, rotation);
     },
 
-    nand: function(target, x, y, inputCount) {
-      return group(target, x, y, [output, negation, and], inputCount || 2);
+    nand: function(target, x, y, inputCount, rotation) {
+      return group(target, x, y, [output, negation, and], inputCount || 2, rotation);
     },
 
-    and: function(target, x, y, inputCount) {
-      return group(target, x, y, [output, and], inputCount || 2);
+    and: function(target, x, y, inputCount, rotation) {
+      return group(target, x, y, [output, and], inputCount || 2, rotation);
     },
 
-    nor: function(target, x, y, inputCount) {
-      return group(target, x, y, [output, negation, or], inputCount || 2);
+    nor: function(target, x, y, inputCount, rotation) {
+      return group(target, x, y, [output, negation, or], inputCount || 2, rotation);
     },
 
-    or: function(target, x, y, inputCount) {
-      return group(target, x, y, [output, or], inputCount || 2);
+    or: function(target, x, y, inputCount, rotation) {
+      return group(target, x, y, [output, or], inputCount || 2, rotation);
     },
 
-    not: function(target, x, y) {
-      return group(target, x, y, [output, buffer, negation], 1);
+    not: function(target, x, y, inputCount, rotation) {
+      return group(target, x, y, [output, buffer, negation], 1, rotation);
     },
   };
 

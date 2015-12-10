@@ -151,7 +151,7 @@
     return function(x,y) {
       return {
         x: clamp(x, -minWidth, minWidth),
-        y: clamp(y, -minWidth, minHeight),
+        y: clamp(y, -minHeight, minHeight),
       };
     }
   }
