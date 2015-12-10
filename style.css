@@ -30,23 +30,41 @@ svg {
 
 .circuit-wire {
   stroke-width: 2pt;
-  stroke: black;
+  stroke: #222;
   stroke-linecap:round;
   stroke-linejoin:round;
   stroke-miterlimit:4;
+}
+
+.branch-point {
+  fill: #222;
 }
 
 
 .gate {
-  fill: lightgrey;
-  stroke-width: 2pt;
-  stroke: black;
+}
+
+.gate-body {
+  stroke-width: 5px;
   stroke-linecap:butt;
   stroke-linejoin:round;
   stroke-miterlimit:4;
+  fill: #fff;
+  stroke: #2E63B6;
+}
+
+.gate-body-extra {
+  stroke-width: 5px;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-miterlimit:4;
+  fill: none;
+  stroke: #2E63B6;
+  stroke-location: outside;
 }
 
 .gate-port {
-  stroke-width: 4pt;
+  stroke-width: 2pt;
   stroke-linecap:round;
+  stroke: #222;
 }

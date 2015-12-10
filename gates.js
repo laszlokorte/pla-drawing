@@ -4,15 +4,15 @@
     return appendToSVG(target,'circle',{
       cx: 35,
       cy: 0,
-      r: 10
+      r: 10,
+      class: 'gate-body'
     });
   };
 
   var exclusion = function(target) {
     return appendToSVG(target,'path',{
-      d: `M-50,35c0,0 17.5,-3 17.5,-35c0,-32.5 -18,-35 -18,-35`,
-      stroke: 'black',
-      fill: 'none'
+      d: `M-50,35c0,0 17.5,-3 17.5,-35c0,-32.5 -17.5,-35 -17.5,-35`,
+      class: 'gate-body-extra'
     });
   };
 
@@ -22,8 +22,7 @@
       y1: 0,
       x2: 55,
       y2: 0,
-      stroke: 'black',
-      fill: 'none'
+      class: 'gate-port'
     });
   };
 
@@ -55,8 +54,7 @@
       y1: y,
       x2: -20,
       y2: y,
-      stroke: 'black',
-      fill: 'none'
+      class: 'gate-port'
     });
   };
 

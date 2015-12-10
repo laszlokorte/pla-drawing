@@ -89,7 +89,7 @@
           });
 
           gates.forEach(function(gate) {
-            logicGates[gate.type](stage, gate.x - 10, gate.y + 5, gate.inputs, gate.rot);
+            logicGates[gate.type](stage, gate.x - 10, gate.y + 3, gate.inputs, gate.rot);
           });
 
           var inputCount = 3;
@@ -98,8 +98,22 @@
           logicGates['or'](stage, -2 + 2*inputCount, -2, loopCount, 0);
 
 
+          appendToSVG(stage,'line',{
+            x1: (-2 + 2*inputCount) * 110,
+            y1: -3 * 110,
+            x2: (-2 + 2*inputCount) * 110,
+            y2: -3 * 110 + 55,
+            class: 'circuit-wire'
+          });
+
+          appendToSVG(stage,'circle',{
+            cx: (-2 + 2*inputCount) * 110,
+            cy: -3 * 110,
+            r: 5,
+            class: 'branch-point'
+          });
+
           Array.apply(Array, {length: inputCount}).forEach(function(_, i) {
-            logicGates['buffer'](stage, -5 + 2*i, -2, 1, 6);
             logicGates['not'](stage, -4 + 2*i, -2, 1, 6);
 
 
@@ -111,12 +125,36 @@
               class: 'circuit-wire'
             });
 
+
             appendToSVG(stage,'line',{
               x1: (-5 + 2*i) * 110,
-              y1: -2 * 110 + 55,
+              y1: -3 * 110,
               x2: (-5 + 2*i) * 110,
               y2: (loopCount) * 110,
               class: 'circuit-wire'
+            });
+
+            appendToSVG(stage,'line',{
+              x1: (-5 + 2*i) * 110,
+              y1: -3 * 110 + 55,
+              x2: (-5 + 2*i+1) * 110,
+              y2: -3 * 110 + 55,
+              class: 'circuit-wire'
+            });
+
+
+            appendToSVG(stage,'circle',{
+              cx: (-5 + 2*i) * 110,
+              cy: -3 * 110,
+              r: 5,
+              class: 'branch-point'
+            });
+
+            appendToSVG(stage,'circle',{
+              cx: (-5 + 2*i) * 110,
+              cy: -3 * 110 + 55,
+              r: 5,
+              class: 'branch-point'
             });
           });
 
@@ -145,8 +183,8 @@
             appendToSVG(stage,'circle',{
               cx: (-2 + 2*inputCount) * 110 + 40 - inputOffsets(loopCount)[i] * 10,
               cy: i * 110,
-              r: 4,
-              fill: 'black'
+              r: 5,
+              class: 'branch-point'
             });
 
             for(var k=0;k<loopSize;k++)
@@ -162,8 +200,8 @@
               appendToSVG(stage,'circle',{
                 cx: (-5 + (loopSize + 2*i+k+1)%(inputCount+1)) * 110,
                 cy: i * 110 - 40 + inputOffsets(loopSize)[k] * 10,
-                r: 4,
-                fill: 'black'
+                r: 5,
+                class: 'branch-point'
               });
             }
           });
